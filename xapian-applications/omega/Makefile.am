@@ -44,7 +44,7 @@ BUILT_SOURCES = extra/omegascript.vim my-html-tok.h mimemap.h namedents.h
 
 MAINTAINERCLEANFILES = my-html-tok.h mimemap.h mimemap.stamp namedents.h
 
-EXTRA_PROGRAMS = omindex_pdf
+EXTRA_PROGRAMS = omindex_pdf omindex_key omindex_numbers omindex_pages
 
 EXTRA_DIST =\
 	clickmodel/testdata/test1.log\
@@ -178,6 +178,18 @@ omindex_LDADD = $(MAGIC_LIBS) $(XAPIAN_LIBS) $(ZLIB_LIBS) libutf8convert.la
 
 omindex_pdf_SOURCES = assistant.cc worker_comms.cc common/str.cc handler_poppler.cc
 omindex_pdf_LDADD = $(POPPLER_LIBS) $(XAPIAN_LIBS)
+
+omindex_key_SOURCES = assistant.cc worker_comms.cc common/str.cc handler_libetonyek_key.cc
+omindex_key_LDADD = $(LIBETONYEK_LIBS) $(XAPIAN_LIBS)
+omindex_key_CXXFLAGS = $(XAPIAN_CXXFLAGS) $(LIBETONYEK_CFLAGS)
+
+omindex_pages_SOURCES = assistant.cc worker_comms.cc common/str.cc handler_libetonyek_pages.cc
+omindex_pages_LDADD = $(LIBETONYEK_LIBS) $(XAPIAN_LIBS)
+omindex_pages_CXXFLAGS = $(XAPIAN_CXXFLAGS) $(LIBETONYEK_CFLAGS)
+
+omindex_numbers_SOURCES = assistant.cc worker_comms.cc common/str.cc handler_libetonyek_numbers.cc
+omindex_numbers_LDADD = $(LIBETONYEK_LIBS) $(XAPIAN_LIBS)
+omindex_numbers_CXXFLAGS = $(XAPIAN_CXXFLAGS) $(LIBETONYEK_CFLAGS)
 
 scriptindex_SOURCES = scriptindex.cc myhtmlparse.cc htmlparse.cc\
  common/getopt.cc common/str.cc commonhelp.cc utils.cc hashterm.cc loadfile.cc\

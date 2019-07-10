@@ -155,6 +155,14 @@ index_add_default_libraries()
 #if defined HAVE_POPPLER
     index_library("application/pdf", new Worker("omindex_pdf"));
 #endif
+#if defined HAVE_LIBETONYEK
+    Worker* omindex_key = new Worker("omindex_key");
+    Worker* omindex_pages = new Worker("omindex_pages");
+    Worker* omindex_numbers = new Worker("omindex_numbers");
+    index_library("application/vnd.apple.keynote", omindex_key);
+    index_library("application/vnd.apple.pages", omindex_pages);
+    index_library("application/vnd.apple.numbers", omindex_numbers);
+#endif
 }
 
 void

@@ -21,11 +21,15 @@
  */
 
 #include <config.h>
-#include <csignal>
 
-#include "worker_comms.h"
 #include "handler.h"
+#include "worker_comms.h"
+
+#include <csignal>
+#include <iostream>
 #include "safeunistd.h"
+#include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -63,10 +67,52 @@ static void stop_timeout() { }
 
 #endif
 
+string create_html(const string& title,
+		   const string& author,
+		   const string& keywords,
+		   const string& dump)
+{
+    string html = "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n";
+    if (!title.empty())
+	html += "<title>" + title + "</title>\n";
+    if (!author.empty())
+	html += "<meta name=\"author\" content=\"" + author + "\">\n";
+    if (!keywords.empty())
+	html += "<meta name=\"keywords\" content=\"" + keywords + "\">\n";
+    html += "</head>\n<body>\n";
+    if (!dump.empty())
+	html += "<pre>" + dump + "</pre>\n";
+    html += "</body>\n</html>";
+    return html;
+}
+
+static void
+command_extract(const char* filename, ostream& stream)
+{
+    string dump, title, keywords, author, pages, err;
+    // Setting a timeout for avoid infinity loops
+    set_timeout();
+    bool succeed = extract(filename, dump, title, keywords, author, pages, err);
+    stop_timeout();
+    if (succeed)
+	stream << create_html(title, author, keywords, dump) << endl;
+    _Exit(!succeed);
+}
+
 // FIXME: Restart filter every N files processed?
 
-int main()
+int main(int argc, char ** argv)
 {
+    if (argc == 2) {
+	ios::sync_with_stdio(0);
+	command_extract(argv[1], std::cout);
+    } else if (argc == 3) {
+	std::filebuf fb;
+	fb.open(argv[2], std::ios::out);
+	std::ostream os(&fb);
+	command_extract(argv[1], os);
+    }
+
     string filename;
     FILE* sockt = fdopen(FD, "r+");
 

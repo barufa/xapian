@@ -32,6 +32,7 @@ matrix:
             - libetonyek-dev
             - libtesseract-dev
             - libgmime-2.6-dev
+            - libmarkdown2-dev
       env: CPPFLAGS=-D_GLIBCXX_DEBUG
     - compiler: clang
       os: linux
@@ -60,6 +61,7 @@ matrix:
             - libetonyek-dev
             - libtesseract-dev
             - libgmime-2.6-dev
+            - libmarkdown2-dev
       env: USE_CC=clang USE_CXX='clang++ -stdlib=libc++'
     - compiler: gcc
       os: linux

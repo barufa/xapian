@@ -281,6 +281,12 @@ PKG_CHECK_MODULES([GMIME], [gmime-2.6, glib-2.0], [
      AC_DEFINE(HAVE_GMIME, 1, [Define HAVE_GMIME if the library is available])
      OMINDEX_MODULES="$OMINDEX_MODULES omindex_gmime"],[ ])
 
+
+dnl check if gmime is available.
+PKG_CHECK_MODULES([MARKDOWN], [libmarkdown], [
+     AC_DEFINE(HAVE_MARKDOWN, 1, [Define HAVE_MARKDOWN if the library is available])
+     OMINDEX_MODULES="$OMINDEX_MODULES omindex_markdown"],[ ])
+
 AC_SUBST([OMINDEX_MODULES])
 
 dnl Check that snprintf actually works as it's meant to.

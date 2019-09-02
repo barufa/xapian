@@ -189,6 +189,10 @@ index_add_default_libraries()
     index_library("message/rfc822", omindex_gmime);
     index_library("message/news", omindex_gmime);
 #endif
+#if defined HAVE_MARKDOWN
+    Worker* omindex_markdown = new Worker("omindex_markdown");
+    index_library("text/markdown", omindex_markdown);
+#endif
 }
 
 void

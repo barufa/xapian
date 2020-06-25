@@ -1,7 +1,7 @@
 dist: xenial
 language: cpp
 notifications:
-  irc: "chat.freenode.net#xapian-devel"
+#  irc: "chat.freenode.net#xapian-devel"
 matrix:
   include:
     - compiler: gcc

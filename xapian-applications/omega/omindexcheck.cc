@@ -174,6 +174,13 @@ main(int argc, char** argv)
 	}
 	Xapian::docid did = *p;
 	Xapian::Document doc = db.get_document(did);
+        cout << url << ": ";
+	for(auto terms = doc.termlist_begin();terms!=doc.termlist_end();terms++){
+	    const string& sterm = *terms;
+	    cout << sterm << ' ';
+	}
+        cout << endl;
+
 	auto iter = tests.find(url);
 	if (iter != tests.end()) {
 	    succeed &= compare_test(iter->second, doc, url);
